@@ -1,26 +1,24 @@
 AddonWaiter = {}
 
 -- Last execution time of waitOnPatrions()
-AddonWaiter.lastProcessingDuration = 0
+AddonWaiter.lastLoopDuration = 0
 
 local patronQueue = {}
 local patronCount = 0
 
 local maxAttempts = 3
 
-
--- In seconds, minimum time to rest between grooms
-local breakAfterWaiting = 1
+local minBreakAfterAttending = 1
 
 function AddonWaiter.waitFor( waitingFor, onSuccess, onTimeout )
 
-    local struct = {}
-    struct["onSuccess"] = onSuccess
-    struct["onTimeout"] = onTimeout
-    struct["waitingFor"] = waitingFor
-    struct["attempts"] = 0
+    local patron = {}
+    patron["onSuccess"] = onSuccess
+    patron["onTimeout"] = onTimeout
+    patron["waitingFor"] = waitingFor
+    patron["attempts"] = 0
 
-    patronQueue[patronCount] = struct
+    patronQueue[patronCount] = patron
 
     patronCount = patronCount + 1
 end
@@ -33,7 +31,7 @@ local function removePatron( patronID )
     patronQueue[patronID] = nil
 end
 
-local function waitOnPatron( patronID, patron )
+local function attendPatron( patronID, patron )
     if patron.attempts >= maxAttempts then
         patron.onTimeout()
         return removePatron( patronID )
@@ -47,21 +45,21 @@ local function waitOnPatron( patronID, patron )
     patron.attempts = patron.attempts + 1
 end
 
-local function waitOnPatrons()
+local function attendPatrons()
     local startTime = SysTime()
 
     for patronID, patron in pairs(patronQueue) do
-        waitOnPatron( patronID, patron )
+        attendPatron( patronID, patron )
     end
 
     local endTime = SysTime()
     local elapsedTime = endTime - startTime
 
-    AddonWaiter.lastProcessingDuration = elapsedTime
+    AddonWaiter.lastLoopDuration = elapsedTime
 
-    local delayTime = math.max( 0, breakAfterWaiting - elapsedTime )
+    local delayTime = math.max( 0, minBreakAfterAttending - elapsedTime )
 
-    timer.Simple( delayTime, waitOnPatrons )
+    timer.Simple( delayTime, attendPatrons )
 end
 
-waitOnPatrons()
+attendPatrons()
