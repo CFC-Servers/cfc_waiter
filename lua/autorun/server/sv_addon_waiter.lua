@@ -1,13 +1,14 @@
 AddonWaiter = {}
 
--- Last execution time of waitOnPatrions()
+-- Last execution time of attendPatrons()
 AddonWaiter.lastLoopDuration = 0
 
 local patronQueue = {}
 local patronCount = 0
 
-local maxAttempts = 3
+local maxAttempts = 10
 
+-- Minimum delay between executions of attendPatrons()
 local minBreakAfterAttending = 1
 
 function AddonWaiter.waitFor( waitingFor, onSuccess, onTimeout )
