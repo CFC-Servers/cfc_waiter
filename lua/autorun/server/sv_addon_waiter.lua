@@ -25,10 +25,6 @@ function AddonWaiter.waitFor( waitingFor, onSuccess, onTimeout )
 end
 
 local function removePatron( patronID )
-    local waitingStruct = patronQueue[patronID]
-
-    waitingStruct.onTimeout()
-
     patronQueue[patronID] = nil
 end
 
