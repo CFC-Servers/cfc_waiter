@@ -14,6 +14,13 @@ local function alertAll( alertMsg )
     end
 end
 
+local function waitingFor()
+    local succeeded = globalTestVariable == "that"
+    alertAll( "Running the waitingFor function: " .. succeeded )
+
+    return succeeded
+end
+
 local function alertOnSuccess()
     alertAll( "Waiter called onSuccess -- whatever you were waiting for completed!" )
 end
@@ -26,14 +33,27 @@ timer.Simple( 2, function()
     globalTestVariable = "that"
 end )
 
-local function waitingFor()
-    local succeeded = globalTestVariable == "that"
-    alertAll( "Running the waitingFor function: " .. succeeded )
-
-    return succeeded
-end
-
 Waiter.waitFor( waitingFor, alertOnSuccess, alertOnTimeout )
 ```
 
+This code will output:
+```
+Running the waitingFor function: false
+Running the waitingFor function: false
+Running the waitingFor function: true
+AddonWaiter called onSuccess -- whatever you were waiting for completed!
+```
+
 CFC uses this to ensure that addon X is loaded before we begin running addon Y, but you could use this for any number of things.
+
+
+# Notes
+
+Waiter keeps a queue of all registered patrons and loops through them sequentially. Because we can't predict how long this will take, Waiter can't guarantee that your `waitFor` function will be run at a certain interval.
+
+There is a minimum of a 1 second delay between loops over the queue, but the delay is actually calculated as `( minDelayTime - loopTime )` where `minDelayTime` is 1 and `loopTime` is how long (in seconds) it took for the loop to run ( with a minimum delay being 0s ).
+
+So if the processing loop took 0.25 seconds to run, Waiter would only wait 0.75 seconds until it loops through the queue again.
+
+You can keep an eye on how long it's taking Waiter to get through the queue by looking at the `Waiter.lastLoopDuration` variable, which will return how long the last processing loop took, in seconds.
+This can help give you an idea of how frequently your `waitFor` function will be run.
