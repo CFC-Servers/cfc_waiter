@@ -49,11 +49,13 @@ CFC uses this to ensure that addon X is loaded before we begin running addon Y, 
 
 # Notes
 
-Waiter keeps a queue of all registered patrons and loops through them sequentially. Because we can't predict how long this will take, Waiter can't guarantee that your `waitFor` function will be run at a certain interval.
+Waiter keeps a queue of all registered patrons and loops through them sequentially. Because we can't predict how long this will take, Waiter can't guarantee that your `waitFor` function will be run at any specific interval.
 
-There is a minimum of a 1 second delay between loops over the queue, but the delay is actually calculated as `( minDelayTime - loopTime )` where `minDelayTime` is 1 and `loopTime` is how long (in seconds) it took for the loop to run ( with a minimum delay being 0s ).
+There is a minimum of a 1 second delay between loops over the queue, but the delay is actually calculated as `( minDelayTime - loopTime )` where `minDelayTime` is 1 and `loopTime` is how long (in seconds) it took for the loop to run ( with a minimum delay of 0s ).
 
-So if the processing loop took 0.25 seconds to run, Waiter would only wait 0.75 seconds until it loops through the queue again.
+Put simply, if the processing loop took 0.25 seconds to run, Waiter would only wait 0.75 seconds until it loops through the queue again.
 
 You can keep an eye on how long it's taking Waiter to get through the queue by looking at the `Waiter.lastLoopDuration` variable, which will return how long the last processing loop took, in seconds.
 This can help give you an idea of how frequently your `waitFor` function will be run.
+
+Each patron is given 10 attempts before its `onTimeout` function is called, and it is purged from the queue.
