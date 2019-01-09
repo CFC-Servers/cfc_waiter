@@ -51,8 +51,8 @@ CFC uses this to ensure that addon X is loaded before we begin running addon Y, 
 
 Ah, never fear! We've included an easy way to handle this situation.
 
-`WaiterQueue` is just a global table that anyone can append their patrons (jobs) to.
-When Waiter loads, it loads and begins processing all valid jobs in the `WaiterQueue`.
+`WaiterQueue` is a global table that anyone can append their patrons (jobs) to.
+When Waiter loads, it ingests and processes all valid jobs in the `WaiterQueue`.
 
 Here's an example:
 
