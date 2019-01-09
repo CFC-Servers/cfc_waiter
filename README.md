@@ -75,9 +75,9 @@ else
     table.insert( WaiterQueue, struct )
 end
 ```
-As you can see, you first check if the `Waiter` table exists. If it does, you can just use Waiter normally. If it doesn't, you're able to generate a simple structure and push it to the `WaiterQueue` table.
+As you can see, you first check if the `Waiter` table exists. If it does, you can use Waiter normally. If it doesn't, you're able to generate a simple structure and push it to the `WaiterQueue` table.
 
-**Note:** `WaiterQueue = WaiterQueue or {}` is an important line. This says "Use the existing `WaiterQueue` table, but if it doesn't exist just create a new empty table. This is the polite way of using the `WaiterQueue` to ensure you're not overwriting/deleting other addons' entries in the queue.
+**Note:** `WaiterQueue = WaiterQueue or {}` is an important line. This says "Use the existing `WaiterQueue` table, but if it doesn't exist, create a new empty table." This is the polite way of using the `WaiterQueue` to ensure you're not overwriting/deleting other addons' entries in the queue.
 
 # Technical Details
 
