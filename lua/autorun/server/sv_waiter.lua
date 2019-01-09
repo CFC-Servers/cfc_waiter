@@ -1,4 +1,5 @@
 Waiter = {}
+WaiterQueue = WaiterQueue or {}
 
 -- Last execution time of attendPatrons()
 Waiter.lastLoopDuration = 0
@@ -11,8 +12,7 @@ local maxAttempts = 10
 -- Minimum delay between executions of attendPatrons()
 local minBreakAfterAttending = 1
 
-function Waiter.waitFor( waitingFor, onSuccess, onTimeout )
-
+local function generatePatron( waitingFor, onSuccess, onTimeout )
     local patron = {}
     patron["onSuccess"] = onSuccess
     patron["onTimeout"] = onTimeout
@@ -26,6 +26,10 @@ end
 
 local function removePatron( patronID )
     patronQueue[patronID] = nil
+end
+
+function Waiter.waitFor( waitingFor, onSuccess, onTimeout )
+    generatePatron( waitingFor, onSuccess, onTimeout )
 end
 
 local function attendPatron( patronID, patron )
@@ -59,4 +63,11 @@ local function attendPatrons()
     timer.Simple( delayTime, attendPatrons )
 end
 
+local function getPatronsFromQueue()
+    for _, patron in pairs(WaiterQueue) do
+        generatePatron( patron["waitingFor"], patron["onSuccess"], patron["onTimeout"] )
+    end
+end
+
+getPatronsFromQueue()
 attendPatrons()
