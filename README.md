@@ -47,7 +47,7 @@ AddonWaiter called onSuccess -- whatever you were waiting for completed!
 CFC uses this to ensure that addon X is loaded before we begin running addon Y, but you could use this for any number of things.
 
 
-# Notes
+# Technical Details
 
 Waiter keeps a queue of all registered patrons and loops through them sequentially. Because we can't predict how long this will take, Waiter can't guarantee that your `waitFor` function will be run at any specific interval.
 
