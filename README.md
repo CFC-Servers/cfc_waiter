@@ -1,9 +1,9 @@
-# cfc_addon_waiter
+# cfc_waiter
 Tell me when!
 
 
 # Usage
-Very simple to use. Here's an example!
+Very simple to use. It might be easier to show you:
 
 ```lua
 globalTestVariable = "this"
@@ -15,11 +15,11 @@ local function alertAll( alertMsg )
 end
 
 local function alertOnSuccess()
-    alertAll( "AddonWaiter called onSuccess -- whatever you were waiting for completed!" )
+    alertAll( "Waiter called onSuccess -- whatever you were waiting for completed!" )
 end
 
 local function alertOnTimeout()
-    alertAll( "AddonWaiter called onTimeout -- whatever you were waiting for didn't complete in time!" )
+    alertAll( "Waiter called onTimeout -- whatever you were waiting for didn't complete in time!" )
 end
 
 timer.Simple( 2, function()
@@ -33,5 +33,5 @@ local function waitingFor()
     return succeeded
 end
 
-AddonWaiter.waitFor( waitingFor, alertOnSuccess, alertOnTimeout )
+Waiter.waitFor( waitingFor, alertOnSuccess, alertOnTimeout )
 ```

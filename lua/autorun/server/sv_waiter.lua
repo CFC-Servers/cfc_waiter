@@ -1,7 +1,7 @@
-AddonWaiter = {}
+Waiter = {}
 
 -- Last execution time of attendPatrons()
-AddonWaiter.lastLoopDuration = 0
+Waiter.lastLoopDuration = 0
 
 local patronQueue = {}
 local patronCount = 0
@@ -11,7 +11,7 @@ local maxAttempts = 10
 -- Minimum delay between executions of attendPatrons()
 local minBreakAfterAttending = 1
 
-function AddonWaiter.waitFor( waitingFor, onSuccess, onTimeout )
+function Waiter.waitFor( waitingFor, onSuccess, onTimeout )
 
     local patron = {}
     patron["onSuccess"] = onSuccess
@@ -52,7 +52,7 @@ local function attendPatrons()
     local endTime = SysTime()
     local elapsedTime = endTime - startTime
 
-    AddonWaiter.lastLoopDuration = elapsedTime
+    Waiter.lastLoopDuration = elapsedTime
 
     local delayTime = math.max( 0, minBreakAfterAttending - elapsedTime )
 
