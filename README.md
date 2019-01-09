@@ -35,3 +35,5 @@ end
 
 Waiter.waitFor( waitingFor, alertOnSuccess, alertOnTimeout )
 ```
+
+CFC uses this to ensure that addon X is loaded before we begin running addon Y, but you could use this for any number of things.
