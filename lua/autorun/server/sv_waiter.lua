@@ -54,7 +54,7 @@ local function attendPatron( patronID, patron )
 end
 
 local function attendPatrons()
-    print( "[CFC Waiter] Attending to patrons.. " )
+    --print( "[CFC Waiter] Attending to patrons.. " )
     local startTime = SysTime()
 
     for patronID, patron in pairs(patronQueue) do
@@ -66,11 +66,11 @@ local function attendPatrons()
 
     Waiter.lastLoopDuration = elapsedTime
 
-    print( "[CFC Waiter] Finished attending to patrons. Elapsed time: " .. tostring(elapstedTime) )
+    --print( "[CFC Waiter] Finished attending to patrons. Elapsed time: " .. tostring(elapstedTime) )
 
     local delayTime = math.max( 0, minBreakAfterAttending - elapsedTime )
 
-    print( "[CFC Waiter] Next delay time: " .. tostring(delayTime) )
+    --print( "[CFC Waiter] Next delay time: " .. tostring(delayTime) )
 
     timer.Simple( delayTime, attendPatrons )
 end
