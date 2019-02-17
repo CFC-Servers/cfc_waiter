@@ -1,3 +1,5 @@
+AddCSLuaFile()
+
 Waiter = {}
 WaiterQueue = WaiterQueue or {}
 
