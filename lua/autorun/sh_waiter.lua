@@ -9,18 +9,20 @@ Waiter.lastLoopDuration = 0
 local patronQueue = {}
 local patronCount = 0
 
-local maxAttempts = 10
+local defaultMaxAttempts = 10
 
--- Minimum delay between executions of attendPatrons()
-local minBreakAfterAttending = 1
+-- Minimum delay (in seconds) between executions of attendPatrons()
+local minBreakAfterAttending = 0.5
 
-local function generatePatron( waitingFor, onSuccess, onTimeout )
+local function generatePatron( waitingFor, onSuccess, onTimeout, maxAttempts )
     print( "[CFC Waiter] Generating new Patron!" )
+
     local patron = {}
-    patron["onSuccess"] = onSuccess
-    patron["onTimeout"] = onTimeout
-    patron["waitingFor"] = waitingFor
-    patron["attempts"] = 0
+    patron.onSuccess = onSuccess
+    patron.onTimeout = onTimeout
+    patron.waitingFor = waitingFor
+    patron.maxAttempts = maxAttempts or defaultMaxAttempts
+    patron.attempts = 0
 
     patronQueue[patronCount] = patron
 
@@ -39,7 +41,7 @@ end
 
 local function attendPatron( patronID, patron )
     print( "[CFC Waiter] Attending to patron ID: " .. tostring( patronID ) )
-    if patron.attempts >= maxAttempts then
+    if patron.attempts >= patron.maxAttempts then
         print( "[CFC Waiter] Patron ID " .. tostring( patronID ) .. " has reached max attempts! Running onTimeout and removing.." )
         patron.onTimeout()
         return removePatron( patronID )
@@ -81,8 +83,15 @@ local function getPatronsFromQueue()
     print( "[CFC Waiter] Retrieving patrons from WaiterQueue.." )
     for _, patron in pairs(WaiterQueue) do
         print( "[CFC Waiter] Found patron in WaiterQueue! Importing.." )
-        generatePatron( patron["waitingFor"], patron["onSuccess"], patron["onTimeout"] )
+
+        local waitingFor = patron.waitingFor
+        local onSuccess = patron.onSuccess
+        local onTimeout = patron.onTimeout
+        local maxAttempts = patron.maxAttempts or defaultMaxAttempts
+
+        generatePatron( waitingFor, onSuccess, onTimeout, maxAttempts )
     end
+    print( "[CFC Waiter] Done retrieving patrons from WaiterQueue!" )
 end
 
 getPatronsFromQueue()
