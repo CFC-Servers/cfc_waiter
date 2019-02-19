@@ -115,4 +115,4 @@ Put simply, if the minimum time was 1 second and the processing loop took 0.25 s
 You can keep an eye on how long it's taking Waiter to get through the queue by looking at the `Waiter.lastLoopDuration` variable, which will return how long the last processing loop took, in seconds.
 This can help give you an idea of how frequently your `waitFor` function will be run.
 
-Each patron is, by default, given 10 attempts before its `onTimeout` function is called, and it is purged from the queue. Though, each patron can defined its own attempt limit.
+Each patron is, by default, given 10 attempts before its `onTimeout` function is called, and it is purged from the queue. Though, each patron can define its own attempt limit.
