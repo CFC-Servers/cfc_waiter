@@ -14,7 +14,7 @@ Very simple to use. It might be easier to show you:
 
 Here's the simplest possible example of how to use Waiter
 ```lua
-/* Wait for LocalPlayer() to be valid */
+-- Wait for LocalPlayer() to be valid 
 Waiter.waitFor(
     function() return IsValid(LocalPlayer()) end,
     function() print("Local Player is valid!") end,
