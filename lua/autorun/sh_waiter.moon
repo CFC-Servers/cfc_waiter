@@ -1,4 +1,6 @@
-AddCSLuaFile()
+require "moonscript"
+
+AddCSLuaFile!
 
 export Waiter
 export WaiterQueue
