@@ -11,7 +11,7 @@ local patronCount = 0
 
 local defaultMaxAttempts = 10
 
--- Minimum delay (in seconds) between executions of attendPatrons()
+-- Minimum delay ( in seconds ) between executions of attendPatrons()
 local minBreakAfterAttending = 0.5
 
 local function generatePatron( waitingFor, onSuccess, onTimeout, maxAttempts )
@@ -27,7 +27,7 @@ local function generatePatron( waitingFor, onSuccess, onTimeout, maxAttempts )
     patronQueue[patronCount] = patron
 
     patronCount = patronCount + 1
-    print( "[CFC Waiter] New Patron Count: " .. tostring(patronCount) )
+    print( "[CFC Waiter] New Patron Count: " .. tostring( patronCount ) )
 end
 
 local function removePatron( patronID )
@@ -42,7 +42,7 @@ end
 local function attendPatron( patronID, patron )
     print( "[CFC Waiter] Attending to patron ID: " .. tostring( patronID ) )
     if patron.attempts >= patron.maxAttempts then
-        print( "[CFC Waiter] Patron ID " .. tostring( patronID ) .. " has reached max attempts! Running onTimeout and removing.." )
+        print( "[CFC Waiter] Patron ID " .. tostring( patronID ) .. " has reached max attempts! Running onTimeout and removing .. " )
         patron.onTimeout()
         return removePatron( patronID )
     end
@@ -58,10 +58,10 @@ local function attendPatron( patronID, patron )
 end
 
 local function attendPatrons()
-    --print( "[CFC Waiter] Attending to patrons.. " )
+    -- print( "[CFC Waiter] Attending to patrons.. " )
     local startTime = SysTime()
 
-    for patronID, patron in pairs(patronQueue) do
+    for patronID, patron in pairs( patronQueue ) do
         attendPatron( patronID, patron )
     end
 
@@ -70,19 +70,19 @@ local function attendPatrons()
 
     Waiter.lastLoopDuration = elapsedTime
 
-    --print( "[CFC Waiter] Finished attending to patrons. Elapsed time: " .. tostring(elapstedTime) )
+    -- print( "[CFC Waiter] Finished attending to patrons. Elapsed time: " .. tostring( elapstedTime ) )
 
     local delayTime = math.max( 0, minBreakAfterAttending - elapsedTime )
 
-    --print( "[CFC Waiter] Next delay time: " .. tostring(delayTime) )
+    -- print( "[CFC Waiter] Next delay time: " .. tostring( delayTime ) )
 
     timer.Simple( delayTime, attendPatrons )
 end
 
 local function getPatronsFromQueue()
-    print( "[CFC Waiter] Retrieving patrons from WaiterQueue.." )
-    for _, patron in pairs(WaiterQueue) do
-        print( "[CFC Waiter] Found patron in WaiterQueue! Importing.." )
+    print( "[CFC Waiter] Retrieving patrons from WaiterQueue .. " )
+    for _, patron in pairs( WaiterQueue ) do
+        print( "[CFC Waiter] Found patron in WaiterQueue! Importing .. " )
 
         local waitingFor = patron.waitingFor
         local onSuccess = patron.onSuccess
