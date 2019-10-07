@@ -35,7 +35,7 @@ removePatron = (patronID) ->
     patronQueue[patronID] = nil
 
 Waiter.waitFor = (waitingFor, onSuccess, onTimeout) ->
-    print "[CFC Waiter] REgistering new Patron!"
+    print "[CFC Waiter] Registering new Patron!"
     generatePatron waitingFor, onSuccess, onTimeout
 
 attendPatron = (patronID, patron) ->
