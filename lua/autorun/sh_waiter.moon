@@ -22,7 +22,7 @@ generatePatron = (waitingFor, onSuccess, onTimeout, maxAttempts=0) ->
         :onSuccess,
         :onTimeout,
         :waitingFor,
-        :maxAttempts
+        :maxAttempts,
         attempts: 0
 
     patronQueue[patronCount] = patron
