@@ -82,7 +82,7 @@ end
 local function getPatronsFromQueue()
     print( "[CFC Waiter] Retrieving patrons from WaiterQueue..." )
     for _, patron in pairs( WaiterQueue ) do
-        print( "[CFC Waiter] Found patron in WaiterQueue! Importing .. " )
+        print( "[CFC Waiter] Found patron in WaiterQueue! Importing..." )
 
         local waitingFor = patron.waitingFor
         local onSuccess = patron.onSuccess
