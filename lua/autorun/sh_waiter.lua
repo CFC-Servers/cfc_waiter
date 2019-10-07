@@ -80,7 +80,7 @@ local function attendPatrons()
 end
 
 local function getPatronsFromQueue()
-    print( "[CFC Waiter] Retrieving patrons from WaiterQueue .. " )
+    print( "[CFC Waiter] Retrieving patrons from WaiterQueue..." )
     for _, patron in pairs( WaiterQueue ) do
         print( "[CFC Waiter] Found patron in WaiterQueue! Importing .. " )
 
