@@ -42,7 +42,7 @@ end
 local function attendPatron( patronID, patron )
     print( "[CFC Waiter] Attending to patron ID: " .. tostring( patronID ) )
     if patron.attempts >= patron.maxAttempts then
-        print( "[CFC Waiter] Patron ID " .. tostring( patronID ) .. " has reached max attempts! Running onTimeout and removing .. " )
+        print( "[CFC Waiter] Patron ID " .. tostring( patronID ) .. " has reached max attempts! Running onTimeout and removing..." )
         patron.onTimeout()
         return removePatron( patronID )
     end
