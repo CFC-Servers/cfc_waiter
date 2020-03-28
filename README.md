@@ -14,6 +14,8 @@ Very simple to use. It might be easier to show you:
 
 Here's the simplest possible example of how to use Waiter
 ```lua
+require( "cfcwaiter" )
+
 -- Wait for LocalPlayer() to be valid 
 Waiter.waitFor(
     function() return IsValid(LocalPlayer()) end,
@@ -22,8 +24,12 @@ Waiter.waitFor(
 )
 ```
 
+And that's it. When `LocalPlayer()` is valid, it'll print `"Local Player is valid!"`
+
 A more realistic implementation might look like this:
 ```lua
+require( "cfcwaiter" )
+
 globalTestVariable = "this"
 
 -- Alert function
@@ -66,43 +72,10 @@ This code will output:
 Running the waitingFor function: false
 Running the waitingFor function: false
 Running the waitingFor function: true
-AddonWaiter called onSuccess -- whatever you were waiting for completed!
+Waiter called onSuccess -- whatever you were waiting for completed!
 ```
 
 CFC uses this to ensure that addon X is loaded before we begin running addon Y, but you could use this for any number of things.
-
-## WaiterQueue
-"But guys!" you exclaim, "What happens if my addon loads before AddonWaiter? Won't I just have to duplicate some of your code to even use it in the first place?"
-
-Ah, never fear! We've included an easy way to handle this situation.
-
-`WaiterQueue` is a global table that anyone can append their patrons (jobs) to.
-When Waiter loads, it ingests and processes all valid jobs in the `WaiterQueue`.
-
-Here's an example:
-
-```lua
---lua/autorun/server/m9k_stubber.lua
-local waiterLoaded = Waiter
-
-if waiterLoaded then
-    print("[M9k Stubber] Waiter is loaded, registering with it!")
-    Waiter.waitFor( m9kIsLoaded, runStubs, handleWaiterTimeout )
-else
-    print("[M9k Stubber] Waiter is not loaded! Inserting our struct into the queue!")
-    WaiterQueue = WaiterQueue or {}
-
-    local struct = {}
-    struct["waitingFor"] = m9kIsLoaded
-    struct["onSuccess"] = runStubs
-    struct["onTimeout"] = handleWaiterTimeout
-
-    table.insert( WaiterQueue, struct )
-end
-```
-As you can see, you first check if the `Waiter` table exists. If it does, you can use Waiter normally. If it doesn't, you're able to generate a simple structure and push it to the `WaiterQueue` table.
-
-**Note:** `WaiterQueue = WaiterQueue or {}` is an important line. This says "Use the existing `WaiterQueue` table, but if it doesn't exist, create a new empty table." This is the polite way of using the `WaiterQueue` to ensure you're not overwriting/deleting other addons' entries in the queue.
 
 # Technical Details
 
