@@ -12,14 +12,14 @@ local defaultMaxAttempts = 10
 -- Minimum delay ( in seconds ) between executions of attendPatrons()
 local minBreakAfterAttending = 0.5
 
-local function generatePatron( waitingFor, onSuccess, onTimeout, maxAttempts )
+local function generatePatron( waitingFor, onSuccess, onTimeout )
     print( "[CFC Waiter] Generating new Patron!" )
 
     local patron = {}
     patron.onSuccess = onSuccess
     patron.onTimeout = onTimeout
     patron.waitingFor = waitingFor
-    patron.maxAttempts = maxAttempts or defaultMaxAttempts
+    patron.maxAttempts = defaultMaxAttempts
     patron.attempts = 0
 
     patronQueue[patronCount] = patron
@@ -32,8 +32,8 @@ local function removePatron( patronID )
     patronQueue[patronID] = nil
 end
 
-function Waiter.waitFor( waitingFor, onSuccess, onTimeout )
-    print( "[CFC Waiter] Registering new Patron!" )
+function Waiter.waitFor( waitingFor, onSuccess, onTimeout, patronName )
+    print( "[CFC Waiter] Registering new Patron: " .. patronName )
     generatePatron( waitingFor, onSuccess, onTimeout )
 end
 
